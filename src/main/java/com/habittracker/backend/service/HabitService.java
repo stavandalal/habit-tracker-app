@@ -14,7 +14,10 @@ public class HabitService {
         this.habitRepository = habitRepository;
     }
 
-    public Habit createHabit(Habit habit){
+    public Habit createHabit(Habit habit) {
+        if (habit.getActive() == null) {
+            habit.setActive(true);
+        }
         return habitRepository.save(habit);
     }
 }

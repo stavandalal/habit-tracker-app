@@ -19,5 +19,7 @@ public class Habit {
 
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
-    private boolean active = true;
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private Boolean active;
 }
