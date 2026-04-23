@@ -17,6 +17,7 @@ public class Habit {
     private String name;
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private Frequency frequency;
     private boolean active = true;
 }
