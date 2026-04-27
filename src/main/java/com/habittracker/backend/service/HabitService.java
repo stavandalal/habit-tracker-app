@@ -5,6 +5,8 @@ import com.habittracker.backend.model.Habit;
 import com.habittracker.backend.repository.HabitRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HabitService {
 
@@ -19,5 +21,9 @@ public class HabitService {
             habit.setActive(true);
         }
         return habitRepository.save(habit);
+    }
+
+    public List<Habit> getAllHabits() {
+        return habitRepository.findAll();
     }
 }

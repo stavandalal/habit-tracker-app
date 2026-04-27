@@ -5,6 +5,8 @@ import com.habittracker.backend.model.Habit;
 import com.habittracker.backend.service.HabitService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/habits")
@@ -18,5 +20,10 @@ public class HabitController {
     @PostMapping
     public Habit createHabit(@RequestBody Habit habit){
         return habitService.createHabit(habit);
+    }
+
+    @GetMapping
+    public List<Habit> getAllHabits(){
+        return habitService.getAllHabits();
     }
 }
