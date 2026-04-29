@@ -15,9 +15,12 @@ import java.util.List;
 public class HabitService {
 
     private final HabitRepository habitRepository;
+    private final HabitLogRepository habitLogRepository;
 
-    public HabitService(HabitRepository habitRepository) {
+    public HabitService(HabitRepository habitRepository,
+                        HabitLogRepository habitLogRepository) {
         this.habitRepository = habitRepository;
+        this.habitLogRepository = habitLogRepository;
     }
 
     public Habit createHabit(Habit habit) {

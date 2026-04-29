@@ -38,7 +38,7 @@ public class HabitController {
     public HabitLog completeHabit(@PathVariable Long id) {
         return habitService.completeToday(id);
     }
-    
+
     @DeleteMapping("/{id}")
     public void deleteHabit(@PathVariable Long id) {
         habitService.deleteHabit(id);
