@@ -26,4 +26,10 @@ public class HabitController {
     public List<Habit> getAllHabits(){
         return habitService.getAllHabits();
     }
+
+
+    @PutMapping("{id}/toggle")
+    public Habit toggltHabit(@PathVariable Long id){
+        return habitService.toggleHabit(id);
+    }
 }

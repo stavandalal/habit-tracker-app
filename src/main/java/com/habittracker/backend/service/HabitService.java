@@ -5,6 +5,7 @@ import com.habittracker.backend.model.Habit;
 import com.habittracker.backend.repository.HabitRepository;
 import org.springframework.stereotype.Service;
 
+import java.lang.module.ResolutionException;
 import java.util.List;
 
 @Service
@@ -25,5 +26,13 @@ public class HabitService {
 
     public List<Habit> getAllHabits() {
         return habitRepository.findAll();
+    }
+
+    public Habit toggleHabit(Long id) {
+        Habit habit = habitRepository.findById(id).orElseThrow(()-> new ResolutionException("Habit not found"));
+
+        habit.setActive(!habit.getActive());
+
+        return habitRepository.save(habit);
     }
 }
