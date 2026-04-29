@@ -2,6 +2,7 @@ package com.habittracker.backend.controller;
 
 
 import com.habittracker.backend.model.Habit;
+import com.habittracker.backend.model.HabitLog;
 import com.habittracker.backend.service.HabitService;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +32,14 @@ public class HabitController {
     @PutMapping("{id}/toggle")
     public Habit toggltHabit(@PathVariable Long id){
         return habitService.toggleHabit(id);
+    }
+
+    @PostMapping("/{id}/complete")
+    public HabitLog completeHabit(@PathVariable Long id){
+        return habitService.markHabitDone(id);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteHabit(@PathVariable Long id) {
+        habitService.deleteHabit(id);
     }
 }
