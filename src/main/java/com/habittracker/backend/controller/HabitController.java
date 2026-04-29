@@ -35,9 +35,10 @@ public class HabitController {
     }
 
     @PostMapping("/{id}/complete")
-    public HabitLog completeHabit(@PathVariable Long id){
-        return habitService.markHabitDone(id);
+    public HabitLog completeHabit(@PathVariable Long id) {
+        return habitService.completeToday(id);
     }
+    
     @DeleteMapping("/{id}")
     public void deleteHabit(@PathVariable Long id) {
         habitService.deleteHabit(id);

@@ -39,18 +39,17 @@ public class HabitService {
         return habitRepository.save(habit);
     }
 
-    public HabitLog markHabitDone(Long habitId) {
-
+    public HabitLog completeToday(Long habitId) {
         LocalDate today = LocalDate.now();
 
-        HabitLogRepository habitLogRepository = null;
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new RuntimeException("Habit not found"));
+
         HabitLog log = habitLogRepository
                 .findByHabitIdAndDate(habitId, today)
                 .orElse(new HabitLog());
 
-        log.setHabit(habitRepository.findById(habitId)
-                .orElseThrow(() -> new RuntimeException("Habit not found")));
-
+        log.setHabit(habit);
         log.setDate(today);
         log.setCompleted(true);
 
