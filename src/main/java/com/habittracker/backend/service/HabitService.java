@@ -1,4 +1,5 @@
 package com.habittracker.backend.service;
+import com.habittracker.backend.dto.HabitResponse;
 
 
 import com.habittracker.backend.model.Habit;
@@ -24,22 +25,19 @@ public class HabitService {
     }
 
     public Habit createHabit(Habit habit) {
-        if (habit.getActive() == null) {
-            habit.setActive(true);
-        }
         return habitRepository.save(habit);
     }
 
-    public List<Habit> getAllHabits() {
-        return habitRepository.findAll();
-    }
-
-    public Habit toggleHabit(Long id) {
-        Habit habit = habitRepository.findById(id).orElseThrow(()-> new ResolutionException("Habit not found"));
-
-        habit.setActive(!habit.getActive());
-
-        return habitRepository.save(habit);
+    public List<HabitResponse> getAllHabits() {
+        return habitRepository.findAll().stream()
+                .map(habit -> new HabitResponse(
+                        habit.getId(),
+                        habit.getName(),
+                        habit.getDescription(),
+                        habit.getFrequency().name(),
+                        isCompletedToday(habit.getId())
+                ))
+                .toList();
     }
 
     public HabitLog completeToday(Long habitId) {
@@ -60,9 +58,23 @@ public class HabitService {
     }
 
     public void deleteHabit(Long id) {
-        if (!habitRepository.existsById(id)) {
-            throw new RuntimeException("Habit not found");
-        }
-        habitRepository.deleteById(id);
+        Habit habit = habitRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Habit not found"));
+
+        habitLogRepository.deleteAll(
+                habitLogRepository.findAll().stream()
+                        .filter(log -> log.getHabit().getId().equals(id))
+                        .toList()
+        );
+
+        habitRepository.delete(habit);
     }
+
+    public boolean isCompletedToday(Long habitId) {
+        return habitLogRepository.existsByHabitIdAndDate(
+                habitId,
+                LocalDate.now()
+        );
+    }
+
 }

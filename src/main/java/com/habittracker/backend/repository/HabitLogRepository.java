@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface HabitLogRepository extends JpaRepository<HabitLog, Long> {
     Optional<HabitLog> findByHabitIdAndDate(Long habitId, LocalDate date);
+    boolean existsByHabitIdAndDate(Long habitId, LocalDate date);
+
 }
