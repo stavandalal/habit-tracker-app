@@ -35,7 +35,8 @@ public class HabitService {
                         habit.getName(),
                         habit.getDescription(),
                         habit.getFrequency().name(),
-                        isCompletedToday(habit.getId())
+                        isCompletedToday(habit.getId()),
+                        calculateStreak(habit.getId())
                 ))
                 .toList();
     }
@@ -76,5 +77,26 @@ public class HabitService {
                 LocalDate.now()
         );
     }
+
+    public int calculateStreak(Long habitId){
+        List<HabitLog> logs = habitLogRepository.findAll().stream()
+                .filter(log -> log.getHabit().getId().equals(habitId))
+                .filter(HabitLog::isCompleted)
+                .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
+                .toList();
+
+        int streak = 0;
+        LocalDate today = LocalDate.now();
+
+        for (HabitLog log : logs){
+            if(log.getDate().equals(today.minusDays(streak))){
+                streak++;
+            }else{
+                break;
+            }
+        }
+        return streak;
+    }
+
 
 }
