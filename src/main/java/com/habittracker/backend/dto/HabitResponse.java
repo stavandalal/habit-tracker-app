@@ -6,5 +6,6 @@ public record HabitResponse(
         String name,
         String description,
         String frequency,
-        boolean completedToday
+        boolean completedToday,
+        int streak
 ) {}
