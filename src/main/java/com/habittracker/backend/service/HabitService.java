@@ -79,10 +79,10 @@ public class HabitService {
     }
 
     public int calculateStreak(Long habitId){
-        List<HabitLog> logs = habitLogRepository.findAll().stream()
-                .filter(log -> log.getHabit().getId().equals(habitId))
+        List<HabitLog> logs = habitLogRepository
+                .findByHabitIdOrderByDateDesc(habitId)
+                .stream()
                 .filter(HabitLog::isCompleted)
-                .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
                 .toList();
 
         int streak = 0;
